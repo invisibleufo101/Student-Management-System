@@ -51,32 +51,6 @@ public class StudentValidator {
     return studentId;
   }
 
-//  public int validateStudentId(int studentId, Student student){
-//
-//  }
-
-//  public int checkValidStudentId() {
-//    while (true) {
-//      try {
-//        System.out.print("학\t번 입력 : ");
-//
-//        String input = this.scanner.next();
-//        if (input.length() != 8) {
-//          throw new StudentIdFormatException();
-//        }
-//        int studentId = Integer.parseInt(input);
-//        if (Objects.isNull(this.studentService.getStudentById(studentId))) {
-//          throw new InvalidStudentIdException();
-//        }
-//        return studentId;
-//      } catch (NumberFormatException nfe) {
-//        System.out.println("[올바른 형식으로 입력하세요 (숫자 8자리). 다시 입력하세요.]");
-//      } catch (StudentIdFormatException | InvalidStudentIdException e) {
-//        System.out.println(e.getMessage());
-//      }
-//    }
-//  }
-
   public String validateName(String name) throws NameFormatException {
     String namePattern = "^[가-힣]{2,7}$"; // chatGPT가 제공한 Regex Pattern
     if (!name.matches(namePattern)){
@@ -94,13 +68,33 @@ public class StudentValidator {
   }
 
   public String validatePhoneNumber(String phoneNumber, LinkedHashMap<Integer,Student>students) throws PhoneNumberFormatException, DuplicatePhoneNumberException{
-    if (isValidPhoneNumberFormat(phoneNumber)){
+    if (!isValidPhoneNumberFormat(phoneNumber)){
       throw new PhoneNumberFormatException();
     }
     if (isDuplicatePhoneNumber(phoneNumber, students)){
       throw new DuplicatePhoneNumberException();
     }
     return phoneNumber;
+  }
+
+  /**
+   *
+   * @param phoneNumber 사용자 입력으로 바꿀 전화번호
+   * @param updatedStudent
+   * @param students
+   * @return
+   */
+  public String validatePhoneNumber(String phoneNumber, Student updatedStudent, LinkedHashMap<Integer,Student>students){
+    if (!isValidPhoneNumberFormat(phoneNumber)){
+      throw new PhoneNumberFormatException();
+    }
+
+   for (Student student : students.values()){
+     if (!student.equals(updatedStudent) && student.getPhoneNumber().equals(phoneNumber)){
+       throw new DuplicatePhoneNumberException();
+     }
+   }
+   return phoneNumber;
   }
 
 //  public String validatePhoneNumber(String phoneNumber, Student student){
@@ -133,7 +127,7 @@ public class StudentValidator {
 
   private boolean isValidPhoneNumberFormat(String phoneNumber) {
     String phoneNumberPattern = "010-\\d{4}-\\d{4}";
-    return !phoneNumber.matches(phoneNumberPattern);
+    return phoneNumber.matches(phoneNumberPattern);
   }
 
   // Code provided by ChatGPT

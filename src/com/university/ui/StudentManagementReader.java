@@ -4,6 +4,7 @@ import com.university.exceptions.DuplicatePhoneNumberException;
 import com.university.exceptions.DuplicateStudentIdException;
 import com.university.exceptions.InvalidMajorException;
 import com.university.exceptions.InvalidOptionException;
+import com.university.exceptions.InvalidStudentIdException;
 import com.university.exceptions.NameFormatException;
 import com.university.exceptions.PhoneNumberFormatException;
 import com.university.exceptions.StudentIdFormatException;
@@ -13,17 +14,18 @@ import com.university.validator.StudentValidator;
 import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
-public class StudentManagementReader {
+
+class StudentManagementReader {
 
   private Scanner scanner = new Scanner(System.in);;
   private StudentService studentService;
   private StudentValidator studentValidator = new StudentValidator();
 
-  public StudentManagementReader(StudentService studentService) {
+  StudentManagementReader(StudentService studentService) {
     this.studentService = studentService;
   }
 
-  public int readOption() {
+  int readOption() {
     while (true) {
       try {
         System.out.print("관리 번호를 입력하세요. : ");
@@ -37,7 +39,7 @@ public class StudentManagementReader {
     }
   }
 
-  public int readNumberOfStudents() {
+  int readNumberOfStudents() {
     while (true) {
       try {
         System.out.print("학생 수를 입력하세요: ");
@@ -49,7 +51,7 @@ public class StudentManagementReader {
     }
   }
 
-  public int readStudentId() {
+  int readStudentId() {
     while (true) {
       try {
         System.out.print("학\t번 입력 : ");
@@ -63,7 +65,22 @@ public class StudentManagementReader {
     }
   }
 
-  public String readName(){
+  int fetchExistingStudentId(){
+    while (true){
+      try {
+        System.out.print("학번을 입력하십시오. : ");
+        int studentId = scanner.nextInt();
+        Student existingStudent = this.studentService.getStudentById(studentId);
+        return studentValidator.validateStudentId(studentId, existingStudent);
+      } catch (NumberFormatException nfe){
+        System.out.println("[올바른 형식으로 입력하세요 (숫자 8자리). 다시 입력하세요.]");
+      } catch (StudentIdFormatException | InvalidStudentIdException customEx){
+        System.out.println(customEx.getMessage());
+      }
+    }
+  }
+
+  String readName(){
     while(true){
       try {
         System.out.print("이\t름 입력 : ");
@@ -74,7 +91,7 @@ public class StudentManagementReader {
     }
   }
 
-  public String readMajor(){
+  String readMajor(){
     while(true){
       try {
         System.out.print("학\t과 입력 : ");
@@ -85,7 +102,7 @@ public class StudentManagementReader {
     }
   }
 
-  public String readPhoneNumber(){
+  String readPhoneNumber(){
     while(true){
       try {
         System.out.print("전화번호 입력 : ");
@@ -97,7 +114,20 @@ public class StudentManagementReader {
     }
   }
 
-  public String readTerminationResponse(){
+  String readToUpdatePhoneNumber(){
+    while(true){
+      try {
+        System.out.print("전화번호 입력 : ");
+        this.studentService.getAllStudents();
+        return this.studentValidator.validatePhoneNumber(scanner.next(), );
+      } catch() {
+
+      }
+    }
+  }
+
+
+  String readTerminationResponse(){
     return scanner.next();
   }
 }

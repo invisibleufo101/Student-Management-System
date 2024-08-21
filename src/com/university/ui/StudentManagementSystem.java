@@ -2,7 +2,6 @@ package com.university.ui;
 
 import com.university.service.StudentService;
 import com.university.model.Student;
-import com.university.ui.StudentManagementReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -98,19 +97,13 @@ public class StudentManagementSystem {
       System.out.println("학\t과: " + studentEntry.getValue().getMajor());
       System.out.println("연락처: " + studentEntry.getValue().getPhoneNumber());
       System.out.println("---------------------------------------");
-
-      try {
-        TimeUnit.MILLISECONDS.sleep(1000);
-      } catch (InterruptedException ie){
-        System.out.println("[프로그램을 종료합니다.]");
-      }
     }
   }
 
   private void getStudentById() {
     System.out.println("---------------------------------------");
     System.out.println("[학생을 조회합니다.]");
-    int validatedStudentId = this.studentManagementReader.readStudentId();
+    int validatedStudentId = this.studentManagementReader.fetchExistingStudentId();
     Student student = this.studentService.getStudentById(validatedStudentId);
 
     System.out.println("학\t번: " + student.getStudentId());
@@ -123,14 +116,9 @@ public class StudentManagementSystem {
     System.out.println("---------------------------------------");
     System.out.println("[학생 정보를 수정합니다.]");
 
-    int studentId = this.studentManagementReader.readStudentId();
-    Student student = this.studentService.getStudentById(studentId);
-
-    System.out.println("학\t번 : " + student.getStudentId());
-    System.out.println("이\t름 : " + student.getName());
-
+    int studentId = this.studentManagementReader.fetchExistingStudentId();
     String updatedMajor = this.studentManagementReader.readMajor();
-    String updatedPhoneNumber = this.studentManagementReader.readPhoneNumber();
+    String updatedPhoneNumber = this.studentManagementReader.readToUpdatePhoneNumber();
 
     this.studentService.updateStudent(studentId, updatedMajor, updatedPhoneNumber);
   }
@@ -142,6 +130,14 @@ public class StudentManagementSystem {
       String response = this.studentManagementReader.readTerminationResponse();
       if (response.equals("y")) System.exit(0);
       if (response.equals("n")) break;
+    }
+  }
+
+  private void addDelay(){
+    try {
+      TimeUnit.MILLISECONDS.sleep(1000);
+    } catch (InterruptedException ie){
+      System.out.println("[프로그램을 종료합니다.]");
     }
   }
 }
