@@ -14,6 +14,7 @@ import com.university.validator.StudentValidator;
 import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 class StudentManagementReader {
 
@@ -114,21 +115,21 @@ class StudentManagementReader {
     }
   }
 
-  String readToUpdatePhoneNumber(){
+  String readToUpdatePhoneNumber(int studentId){
     while(true){
       try {
         System.out.print("전화번호 입력 : ");
-        this.studentService.getAllStudents();
-        return this.studentValidator.validatePhoneNumber(scanner.next(), );
-      } catch() {
-
+        String phoneNumber = scanner.next();
+        Student updatedStudent = this.studentService.getStudentById(studentId);
+        LinkedHashMap<Integer,Student>students = this.studentService.getAllStudents();
+        return this.studentValidator.validatePhoneNumber(phoneNumber, updatedStudent, students);
+      } catch(PhoneNumberFormatException | DuplicatePhoneNumberException customEx) {
+        System.out.println(customEx.getMessage());
       }
     }
   }
-
 
   String readTerminationResponse(){
     return scanner.next();
   }
 }
-

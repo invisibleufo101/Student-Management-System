@@ -84,7 +84,7 @@ public class StudentValidator {
    * @param students
    * @return
    */
-  public String validatePhoneNumber(String phoneNumber, Student updatedStudent, LinkedHashMap<Integer,Student>students){
+  public String validatePhoneNumber(String phoneNumber, Student updatedStudent, LinkedHashMap<Integer,Student>students) throws PhoneNumberFormatException, DuplicatePhoneNumberException{
     if (!isValidPhoneNumberFormat(phoneNumber)){
       throw new PhoneNumberFormatException();
     }
@@ -96,34 +96,6 @@ public class StudentValidator {
    }
    return phoneNumber;
   }
-
-//  public String validatePhoneNumber(String phoneNumber, Student student){
-//
-//  }
-//  public String validatePhoneNumber(int studentId) {
-//    while (true) {
-//      try {
-//        System.out.print("전화번호 입력 : ");
-//
-//        String input = this.scanner.next();
-//        if (isValidPhoneNumberFormat(input)) {
-//          throw new PhoneNumberFormatException();
-//        }
-//
-//        Student currentStudent = this.studentService.getStudentById(studentId);
-//        currentStudent.setPhoneNumber(null);
-//        if (!input.equals(currentStudent.getPhoneNumber()) && isDuplicatePhoneNumber(input)){
-//          if (isDuplicatePhoneNumber(input)){
-//            throw new DuplicatePhoneNumberException();
-//          }
-//        }
-//
-//        return input;
-//      } catch (PhoneNumberFormatException pnfe) {
-//        System.out.println(pnfe.getMessage());
-//      }
-//    }
-//  }
 
   private boolean isValidPhoneNumberFormat(String phoneNumber) {
     String phoneNumberPattern = "010-\\d{4}-\\d{4}";

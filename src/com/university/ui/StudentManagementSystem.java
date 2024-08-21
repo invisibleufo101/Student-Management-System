@@ -22,11 +22,8 @@ public class StudentManagementSystem {
 
     boolean isRegistered = false;
     while (true) {
-      try {
-        TimeUnit.MILLISECONDS.sleep(1000);
-      } catch (InterruptedException ie){
-        System.out.println("[프로그램을 종료합니다.]");
-      }
+
+      addDelay();
 
       this.printSystemManual();
 
@@ -118,7 +115,7 @@ public class StudentManagementSystem {
 
     int studentId = this.studentManagementReader.fetchExistingStudentId();
     String updatedMajor = this.studentManagementReader.readMajor();
-    String updatedPhoneNumber = this.studentManagementReader.readToUpdatePhoneNumber();
+    String updatedPhoneNumber = this.studentManagementReader.readToUpdatePhoneNumber(studentId);
 
     this.studentService.updateStudent(studentId, updatedMajor, updatedPhoneNumber);
   }
