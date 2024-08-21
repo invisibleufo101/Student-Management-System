@@ -16,7 +16,6 @@ public class StudentManagementSystem {
   public StudentManagementSystem() {
     this.studentService = new StudentService();
     this.studentManagementReader = new StudentManagementReader(this.studentService);
-
   }
 
   public void run() {
@@ -111,7 +110,7 @@ public class StudentManagementSystem {
   private void getStudentById() {
     System.out.println("---------------------------------------");
     System.out.println("[학생을 조회합니다.]");
-    int validatedStudentId = this.studentValidator.checkValidStudentId();
+    int validatedStudentId = this.studentManagementReader.readStudentId();
     Student student = this.studentService.getStudentById(validatedStudentId);
 
     System.out.println("학\t번: " + student.getStudentId());
@@ -124,14 +123,14 @@ public class StudentManagementSystem {
     System.out.println("---------------------------------------");
     System.out.println("[학생 정보를 수정합니다.]");
 
-    int studentId = this.studentValidator.checkValidStudentId();
+    int studentId = this.studentManagementReader.readStudentId();
     Student student = this.studentService.getStudentById(studentId);
 
     System.out.println("학\t번 : " + student.getStudentId());
     System.out.println("이\t름 : " + student.getName());
 
-    String updatedMajor = this.studentValidator.validateMajor();
-    String updatedPhoneNumber = this.studentValidator.validatePhoneNumber(studentId);
+    String updatedMajor = this.studentManagementReader.readMajor();
+    String updatedPhoneNumber = this.studentManagementReader.readPhoneNumber();
 
     this.studentService.updateStudent(studentId, updatedMajor, updatedPhoneNumber);
   }
@@ -139,7 +138,10 @@ public class StudentManagementSystem {
   private void terminateProcess() {
     System.out.println("---------------------------------------");
 
-    String response = this.studentValidator.validateTerminationResponse();
-    if (response.equals("y")) System.exit(0);
+    while(true){
+      String response = this.studentManagementReader.readTerminationResponse();
+      if (response.equals("y")) System.exit(0);
+      if (response.equals("n")) break;
+    }
   }
 }
