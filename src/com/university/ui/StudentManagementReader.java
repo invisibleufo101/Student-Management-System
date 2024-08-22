@@ -47,6 +47,8 @@ class StudentManagementReader {
       try {
         System.out.print("학생 수를 입력하세요: ");
         int numberOfStudents = scanner.nextInt();
+        scanner.nextLine();
+
         if (numberOfStudents <= 0){
           System.out.println("[학생 수는 0보다 작을 수 없습니다. 다시 입력하세요.]");
           continue;
@@ -98,8 +100,9 @@ class StudentManagementReader {
       try {
         System.out.print("학\t번 입력 : ");
         LinkedHashMap<Integer, Student>students = this.studentService.getAllStudents();
-
-        int studentId = studentValidator.validateStudentId(scanner.nextInt(), students);
+        int studentId = scanner.nextInt();
+        scanner.nextLine();
+        studentId = studentValidator.validateStudentId(studentId, students);
         if (studentId <= 0){
           System.out.println("[학번은 음수가 될 수 없습니다. 다시 입력하세요.]");
           continue;
@@ -129,7 +132,9 @@ class StudentManagementReader {
     while (true){
       try {
         System.out.print("학번을 입력하십시오. : ");
-        int studentId = scanner.nextInt();
+        String input = scanner.next();
+        int studentId = Integer.parseInt(input.replaceAll("\\s+",""));
+        scanner.nextLine();
         Student existingStudent = this.studentService.getStudentById(studentId);
 
         int existingStudentId = studentValidator.validateStudentId(studentId, existingStudent);
@@ -160,10 +165,10 @@ class StudentManagementReader {
     while(true){
       try {
         System.out.print("이\t름 입력 : ");
-        return studentValidator.validateName(scanner.next());
+        String name = scanner.nextLine().replaceAll("\\s+","");
+        return studentValidator.validateName(name);
       } catch(NameFormatException nfe){
         System.out.println(nfe.getMessage());
-        scanner.nextLine();
       }
     }
   }
@@ -181,10 +186,10 @@ class StudentManagementReader {
     while(true){
       try {
         System.out.print("학\t과 입력 : ");
-        return studentValidator.validateMajor(scanner.next());
+        String major = scanner.nextLine().replaceAll("\\s+","");
+        return studentValidator.validateMajor(major);
       } catch(InvalidMajorException inme){
         System.out.println(inme.getMessage());
-        scanner.nextLine();
       }
     }
   }
@@ -203,10 +208,10 @@ class StudentManagementReader {
       try {
         System.out.print("전화번호 입력 : ");
         LinkedHashMap<Integer,Student>students = this.studentService.getAllStudents();
-        return this.studentValidator.validatePhoneNumber(scanner.next(), students);
+        String phoneNumber = scanner.next();
+        return this.studentValidator.validatePhoneNumber(phoneNumber, students);
       } catch(PhoneNumberFormatException | DuplicatePhoneNumberException customEx) {
         System.out.println(customEx.getMessage());
-        scanner.nextLine();
       }
     }
   }

@@ -86,6 +86,7 @@ public class StudentValidator {
    * @throws NameFormatException  정규식 표현에 맞지 않는 경우의 예외.
    */
   public String validateName(String name) throws NameFormatException {
+    name = name.replace("\\s+","");
     String namePattern = "^[가-힣]{2,7}$"; // chatGPT가 제공한 Regex Pattern
     if (!name.matches(namePattern)) {
       throw new NameFormatException();
@@ -101,6 +102,7 @@ public class StudentValidator {
    * @throws InvalidMajorException  정규식 표현에 맞지 않을 경우의 예외.
    */
   public String validateMajor(String major) throws InvalidMajorException {
+    major = major.replaceAll("\\s+","");
     String majorPattern = "^[가-힣]+학과$"; // chatGPT가 제공한 Regex Pattern
     if (!major.matches(majorPattern)) {
       throw new InvalidMajorException();
