@@ -11,6 +11,12 @@ public class StudentManagementSystem {
   private StudentManagementReader studentManagementReader; // 사용자의 입력과 예외처리를 담당하는 클래스
   private int numberOfStudents;
 
+  /**
+   * StudentManagementSystem의 생성자입니다.
+   *
+   * StudentService를 생성하고 같은 객체를 사용하기 위해
+   * StudentManagementReader 클래스 생성자에 해당 StudentService 객체를 주입합니다.
+   */
   public StudentManagementSystem() {
     this.studentService = new StudentService();
     this.studentManagementReader = new StudentManagementReader(this.studentService);
@@ -138,7 +144,7 @@ public class StudentManagementSystem {
   private void findStudentById() {
     System.out.println("---------------------------------------");
     System.out.println("[학생을 조회합니다.]");
-    int validatedStudentId = this.studentManagementReader.fetchExistingStudentId();
+    int validatedStudentId = this.studentManagementReader.readExistingStudentId();
     Student student = this.studentService.getStudentById(validatedStudentId);
 
     System.out.println("학\t번: " + student.getStudentId());
@@ -161,7 +167,7 @@ public class StudentManagementSystem {
     System.out.println("---------------------------------------");
     System.out.println("[학생 정보를 수정합니다.]");
 
-    int studentId = this.studentManagementReader.fetchExistingStudentId();
+    int studentId = this.studentManagementReader.readExistingStudentId();
     Student updatedStudent = this.studentService.getStudentById(studentId);
 
     System.out.println("학\t번 : " + updatedStudent.getStudentId());
@@ -185,6 +191,7 @@ public class StudentManagementSystem {
     System.out.println("---------------------------------------");
     String response = this.studentManagementReader.readTerminationResponse();
     if (response.equals("y") || response.equals("Y")) {
+      System.out.println("[프로그램을 종료합니다.]");
       System.exit(0);
     }
   }

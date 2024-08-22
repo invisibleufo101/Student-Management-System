@@ -5,19 +5,20 @@ import java.util.LinkedHashMap;
 
 public class StudentService {
 
-  private LinkedHashMap<Integer, Student> students = new LinkedHashMap<Integer, Student>();
+  private final LinkedHashMap<Integer, Student> students = new LinkedHashMap<Integer, Student>();
 
   /**
    * StudentService의 기본 생성자입니다.
    */
-  public StudentService() {}
+  public StudentService() {
+  }
 
   /**
    * 새로운 학생을 등록합니다.
    *
-   * @param name 학생의 이름.
-   * @param studentId 학생의 학번 (키 값으로 등록).
-   * @param major 학생의 전공.
+   * @param name        학생의 이름.
+   * @param studentId   학생의 학번 (키 값으로 등록).
+   * @param major       학생의 전공.
    * @param phoneNumber 학생의 전화번호.
    */
   public void registerStudent(String name, int studentId, String major, String phoneNumber) {
@@ -46,8 +47,8 @@ public class StudentService {
   /**
    * 학생의 전공과 전화번호를 업데이트합니다.
    *
-   * @param studentId 업데이트할 학생의 학번.
-   * @param major 업데이트할 학생의 새로운 전공.
+   * @param studentId   업데이트할 학생의 학번.
+   * @param major       업데이트할 학생의 새로운 전공.
    * @param phoneNumber 업데이트할 학생의 새로운 전화번호.
    */
   public void updateStudent(int studentId, String major, String phoneNumber) {

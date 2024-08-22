@@ -125,7 +125,7 @@ class StudentManagementReader {
    *
    * @return 예외처리된 참조 학생의 학번.
    */
-  int fetchExistingStudentId(){
+  int readExistingStudentId(){
     while (true){
       try {
         System.out.print("학번을 입력하십시오. : ");
@@ -138,8 +138,9 @@ class StudentManagementReader {
           continue;
         }
         return existingStudentId;
-      } catch (NumberFormatException nfe){
+      } catch (InputMismatchException ime){
         System.out.println("[올바른 형식으로 입력하세요 (숫자 8자리). 다시 입력하세요.]");
+        scanner.nextLine();
       } catch (StudentIdFormatException | InvalidStudentIdException customEx){
         System.out.println(customEx.getMessage());
       }
