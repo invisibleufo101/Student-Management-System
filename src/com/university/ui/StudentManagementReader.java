@@ -13,6 +13,7 @@ import com.university.model.Student;
 import com.university.service.StudentService;
 import com.university.validator.StudentValidator;
 
+import java.text.NumberFormat;
 import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
@@ -111,6 +112,9 @@ class StudentManagementReader {
       } catch (InputMismatchException ime) {
         System.out.println("[올바른 형식으로 입력하세요 (숫자 8자리). 다시 입력하세요.]");
         scanner.nextLine();
+      } catch (NumberFormatException nfe){
+        System.out.println("[올바른 형식으로 입력하세요 (숫자 8자리). 다시 입력하세요.]");
+        scanner.nextLine();
       } catch (StudentIdFormatException | DuplicateStudentIdException customEx) {
         System.out.println(customEx.getMessage());
       }
@@ -146,6 +150,9 @@ class StudentManagementReader {
       } catch (InputMismatchException ime){
         System.out.println("[올바른 형식으로 입력하세요 (숫자 8자리). 다시 입력하세요.]");
         scanner.nextLine();
+      } catch (NumberFormatException nfe){
+        System.out.println("[올바른 형식으로 입력하세요 (숫자 8자리). 다시 입력하세요.]");
+        scanner.nextLine();
       } catch (StudentIdFormatException | InvalidStudentIdException customEx){
         System.out.println(customEx.getMessage());
       }
@@ -158,6 +165,8 @@ class StudentManagementReader {
    * 해당 조건의 경우 예외처리를 합니다:
    * - 이름이 한글이 아닐 경우.
    * - 이름 길이가 2자리 미만 7자리 초과일 경우.
+   * - 이름이 문자열이 아닐 경우.
+   * - 이름에 특수문자가 포함될 경우.
    *
    * @return 예외처리된 학생의 이름.
    */
@@ -179,6 +188,8 @@ class StudentManagementReader {
    * 해당 조건의 경우 예외처리를 합니다:
    * - 학과명이 한글이 아닐 경우.
    * - 학과명이 "학과"로 끝나지 않을 경우.
+   * - 학과명이 문자열이 아닐 경우.
+   * - 학과명에 특수문자가 포함될 경우.
    *
    * @return 예외처리된 학생의 전공.
    */
