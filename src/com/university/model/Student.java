@@ -37,11 +37,4 @@ public class Student {
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
-
-  @Override
-  public String toString() {
-    return this.getName() + " " + this.getStudentId() + " " +
-      this.getMajor() + " " + this.getPhoneNumber() + " " +
-      this.getPhoneNumber();
-  }
 }

@@ -26,6 +26,23 @@ class StudentManagementReader {
     this.studentService = studentService;
   }
 
+  int readNumberOfStudents() {
+    while (true) {
+      try {
+        System.out.print("학생 수를 입력하세요: ");
+        int numberOfStudents = scanner.nextInt();
+        if (numberOfStudents <= 0){
+          System.out.println("[학생 수는 0보다 작을 수 없습니다. 다시 입력하세요.]");
+          continue;
+        }
+        return numberOfStudents;
+      } catch (InputMismatchException ime) {
+        System.out.println("[올바른 형식으로 학생 수를 입력하세요. (숫자 1 - 10자리)]");
+        scanner.nextLine();
+      }
+    }
+  }
+
   int readOption() {
     while (true) {
       try {
@@ -40,26 +57,20 @@ class StudentManagementReader {
     }
   }
 
-  int readNumberOfStudents() {
-    while (true) {
-      try {
-        System.out.print("학생 수를 입력하세요: ");
-        return scanner.nextInt();
-      } catch (InputMismatchException ime) {
-        System.out.println("[숫자로 학생 수를 입력하세요.]");
-        scanner.nextLine();
-      }
-    }
-  }
-
   int readStudentId() {
     while (true) {
       try {
         System.out.print("학\t번 입력 : ");
         LinkedHashMap<Integer, Student>students = this.studentService.getAllStudents();
-        return studentValidator.validateStudentId(scanner.nextInt(), students);
-      } catch (NumberFormatException nfe) {
+        int studentId = studentValidator.validateStudentId(scanner.nextInt(), students);
+        if (studentId <= 0){
+          System.out.println("[학번은 음수가 될 수 없습니다. 다시 입력하세요.]");
+          continue;
+        }
+        return studentId;
+      } catch (InputMismatchException ime) {
         System.out.println("[올바른 형식으로 입력하세요 (숫자 8자리). 다시 입력하세요.]");
+        scanner.nextLine();
       } catch (StudentIdFormatException | DuplicateStudentIdException customEx) {
         System.out.println(customEx.getMessage());
       }
@@ -88,6 +99,7 @@ class StudentManagementReader {
         return studentValidator.validateName(scanner.next());
       } catch(NameFormatException nfe){
         System.out.println(nfe.getMessage());
+        scanner.nextLine();
       }
     }
   }
@@ -99,6 +111,7 @@ class StudentManagementReader {
         return studentValidator.validateMajor(scanner.next());
       } catch(InvalidMajorException inme){
         System.out.println(inme.getMessage());
+        scanner.nextLine();
       }
     }
   }
@@ -111,6 +124,7 @@ class StudentManagementReader {
         return this.studentValidator.validatePhoneNumber(scanner.next(), students);
       } catch(PhoneNumberFormatException | DuplicatePhoneNumberException customEx) {
         System.out.println(customEx.getMessage());
+        scanner.nextLine();
       }
     }
   }
@@ -130,6 +144,14 @@ class StudentManagementReader {
   }
 
   String readTerminationResponse(){
-    return scanner.next();
+    while (true) {
+      System.out.print("프로그램을 종료하시겠습니까? (y/n) : ");
+      String response = scanner.next();
+      if (!response.equals("y") && !response.equals("Y") && !response.equals("n") && !response.equals("N")) {
+        System.out.println("[y 아니면 n로 입력해주세요.]");
+      } else {
+        return response;
+      }
+    }
   }
 }
